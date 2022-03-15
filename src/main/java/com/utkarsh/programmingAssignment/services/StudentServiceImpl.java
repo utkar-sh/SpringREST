@@ -1,6 +1,5 @@
 package com.utkarsh.programmingAssignment.services;
 
-import com.utkarsh.programmingAssignment.models.Professor;
 import com.utkarsh.programmingAssignment.models.Student;
 import com.utkarsh.programmingAssignment.models.wrappers.StudentDetailWrapper;
 import com.utkarsh.programmingAssignment.repository.StudentRepository;
@@ -104,7 +103,33 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ResponseEntity<Object> getBySchoolName(String schoolName) {
+    public ResponseEntity<Object> getByName(String name){
+        try{
+            Optional<Student> studentOptional = studentRepository.findByName(name);
+
+            if(!studentOptional.isPresent()){
+                JSONObject jsonObject = new JSONObject();
+
+                jsonObject.put("error", "Unable to find student by name {" + name + "}");
+                return new ResponseEntity<>(jsonObject.toString(), HttpStatus.BAD_REQUEST);
+            } else {
+                Student student = studentOptional.get();
+
+                StudentDetailWrapper detail = new StudentDetailWrapper();
+                detail.setStudentName(student.getName());
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.append("success", "Student record found");
+                return new ResponseEntity<>(detail, HttpStatus.OK);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> getBySchoolName(String schoolName) {
 
         try {
             Optional<Student> studentOptional = studentRepository.findBySchoolName(schoolName);
@@ -113,7 +138,7 @@ public class StudentServiceImpl implements StudentService {
                 JSONObject jsonObject = new JSONObject();
 
                 jsonObject.put("error", "Unable to find students in school {" + schoolName + "}");
-                return new ResponseEntity<>(jsonObject.toString(), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Students not found", HttpStatus.BAD_REQUEST);
             } else {
                 Student student = studentOptional.get();
 
@@ -124,8 +149,8 @@ public class StudentServiceImpl implements StudentService {
 
 
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.append("success", "Student edited successfully");
-                return new ResponseEntity<>(detail, HttpStatus.OK);
+                jsonObject.append("success", "Students found");
+                return new ResponseEntity<>(student.getName(), HttpStatus.OK);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,15 +159,15 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public ResponseEntity<Object> deleteById(Long id){
+    public ResponseEntity<Object> deleteByName(String name){
         try{
-            Optional<Student> studentOptional = studentRepository.deleteById(id);
+            Optional<Student> studentOptional = studentRepository.deleteByName(name);
 
             if (!studentOptional.isPresent()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
 
-            return new ResponseEntity<>(id, HttpStatus.OK);
+            return new ResponseEntity<>(name, HttpStatus.OK);
         } catch (Exception e){
             e.printStackTrace();
             return null;

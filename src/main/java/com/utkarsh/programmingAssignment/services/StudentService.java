@@ -10,7 +10,9 @@ public interface StudentService {
 
     ResponseEntity<String> editStudent(Student editedStudent);
 
-    ResponseEntity<Object> getBySchoolName(String schoolName);
+    ResponseEntity<Object> getByName(String name);
 
-    ResponseEntity<Object> deleteById(Long id);
+    ResponseEntity<String> getBySchoolName(String schoolName);
+
+    ResponseEntity<Object> deleteByName(String name);
 }

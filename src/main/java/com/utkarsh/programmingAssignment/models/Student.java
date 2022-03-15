@@ -1,14 +1,9 @@
 package com.utkarsh.programmingAssignment.models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Entity
-@Table(name = "students")
+@Entity(name = "STUDENTS")
+@Table(name = "Students")
 public class Student {
 
     @Id

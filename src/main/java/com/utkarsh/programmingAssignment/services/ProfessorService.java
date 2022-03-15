@@ -12,5 +12,5 @@ public interface ProfessorService {
 
     ResponseEntity<Object> getByCourseTaught(String courseTaught);
 
-    ResponseEntity<Object> deleteById(Long id);
+    ResponseEntity<Object> deleteByName(String name);
 }

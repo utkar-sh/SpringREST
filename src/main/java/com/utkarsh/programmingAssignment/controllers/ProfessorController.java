@@ -7,6 +7,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+
 @RestController
 @RequestMapping("/professors")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -38,9 +40,10 @@ public class ProfessorController {
         return professorService.getByCourseTaught(courseTaught);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteProfessor(Long id) {
-        return professorService.deleteById(id);
+    @Transactional
+    @DeleteMapping("/{name}")
+    public ResponseEntity<Object> deleteProfessor(@PathVariable("name") String name) {
+        return professorService.deleteByName(name);
     }
 
 }

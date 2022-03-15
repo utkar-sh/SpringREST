@@ -5,12 +5,10 @@ import com.utkarsh.programmingAssignment.models.Student;
 import com.utkarsh.programmingAssignment.services.StudentService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/students")
@@ -38,10 +36,20 @@ public class StudentController {
         return studentService.editStudent(editedStudent);
     }
 
-    @GetMapping("/{schoolName}")
-    public ResponseEntity<Object> getBySchooName(@PathVariable String schoolName) {
+    @GetMapping("/{name}")
+    public ResponseEntity<Object> getByName(@PathVariable String name){
+        return studentService.getByName(name);
+    }
 
+    @GetMapping("/{schoolName}")
+    public ResponseEntity<String> getBySchooName(@PathVariable("schoolName") String schoolName) {
         return studentService.getBySchoolName(schoolName);
+    }
+
+    @Transactional
+    @DeleteMapping("/{name}")
+    public ResponseEntity<Object> deleteProfessor(@PathVariable("name") String name) {
+        return studentService.deleteByName(name);
     }
 
 }

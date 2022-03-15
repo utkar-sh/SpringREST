@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface ProfessorRepository extends JpaRepository<Professor, Integer> {
     Optional<Professor> findByCourseTaught(String courseTaught);
-    Optional<Professor> deleteById(Long id);
+    Optional<Professor> deleteByName(String name);
 }

@@ -134,15 +134,14 @@ public class ProfessorServiceImpl implements ProfessorService {
     }
 
     @Override
-    public ResponseEntity<Object> deleteById(Long id){
+    public ResponseEntity<Object> deleteByName(String name){
         try{
-            Optional<Professor> professorOptional = professorRepository.deleteById(id);
+            Optional<Professor> professorOptional = professorRepository.deleteByName(name);
 
             if (!professorOptional.isPresent()) {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             } else {
-
-                return new ResponseEntity<>(id, HttpStatus.OK);
+                return new ResponseEntity<>(name, HttpStatus.OK);
             }
 
         } catch (Exception e){
